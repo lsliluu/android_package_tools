@@ -23,7 +23,10 @@ def package_feeler():
 
 @app.route('/email/send')
 def send_email():
-    auto_email_apk()
+    # auto_email_apk()
+    from Utils.Email import Email
+    email = Email()
+    email.sendmail(['dev.hezf@139.com', 'hezf@newland.com.cn'], '关于Android编译apk', '您好：\n此邮件是发起Android编译后自动发送的通知邮件，请注意查看编译进展，请勿回复。\n祝工作顺利')
     return "end"
     pass
 
