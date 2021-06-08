@@ -14,8 +14,8 @@ import yagmail
 class Email:
 
     yag = yagmail.SMTP(
-        host='smtp.139.com', user='18959137976@139.com',
-        password='ccdb794a0a6899e9b700', smtp_ssl=True)
+        host='xxx', user='xxx',
+        password='xxx', smtp_ssl=True)
 
     def sendmail(self, receivers, title, msg ):
         """
@@ -34,19 +34,20 @@ class Email:
             print(e)
             print("Error: 无法发送邮件")
 
-    # def send_mail_with_attachments(self, receivers, title, msg):
-    #     """
-    #     发送邮件
-    #
-    #     Arguments:
-    #         msg {str} -- 邮件正文
-    #         title {str} -- 邮件标题
-    #         receivers {list} -- 邮件接收者，数组
-    #     """
-    #     try:
-    #         self.yag.send(receivers, title, msg, './SystemUtils.py')
-    #         print("邮件发送成功")
-    #
-    #     except BaseException as e:
-    #         print(e)
-    #         print("Error: 无法发送邮件")
+    def send_mail_with_attachments(self, receivers, title, msg, attachments):
+        """
+        发送邮件
+
+        Arguments:
+            msg {str} -- 邮件正文
+            title {str} -- 邮件标题
+            receivers {list} -- 邮件接收者，数组
+        """
+        try:
+            print(attachments)
+            self.yag.send(receivers, title, msg, attachments)
+            print("邮件发送成功")
+
+        except BaseException as e:
+            print(e)
+            print("Error: 无法发送邮件")
