@@ -1,11 +1,10 @@
+from threading import Thread
+
 from flask import Flask
 
-from Utils.SystemUtils import auto_email_apk
+from Utils.PackageUtils import get_packaging_sign
 
 app = Flask(__name__)
-
-# 是否正在打包的标识
-packaging_sign = False
 
 
 @app.route('/say_hi')
@@ -17,14 +16,17 @@ def hello_world():
 def package_feeler():
     # result_dict 返回的参数
     result_dict = {}
-    global packaging_sign
-    if not packaging_sign:
+
+    if not get_packaging_sign():
         # 如果没有在打包，则：
-        # 设置编译状态
-        packaging_sign = True
+
         # 发起编译，执行编译脚本，传递收件人等参数
         from Utils.PackageUtils import execute_shell
-        # execute_shell()
+        # 创建线程，不指定参数
+        thread = Thread(target=execute_shell)
+        # 启动线程
+        thread.start()
+
         result_dict['code'] = 0
         result_dict['msg'] = "打包服务已启动，稍候请注意查收邮件"
     else:

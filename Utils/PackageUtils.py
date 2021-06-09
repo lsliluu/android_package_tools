@@ -1,16 +1,31 @@
 from flask import g
 
 
+# 是否正在打包的标识
+packaging_sign = False
+
+
+def get_packaging_sign():
+    return packaging_sign
+
+
 def execute_doc_shell():
     pass
 
 
 def execute_shell():
+    global packaging_sign
+    # 设置编译状态
+    packaging_sign = True
+    print(packaging_sign)
     # 执行脚本
-    from pip._internal import commands
-    (status, output) = commands.getstatusoutput('sh hello.sh')
+    import subprocess
+    (status, output) = subprocess.getstatusoutput('sh /home/hzf/workspace/auto_package_dir/auto_package_cmhnsjjf.sh')
+    print(status)
+    print(output)
+    packaging_sign = False
     # 调用发送邮件
-    send_email(status, output)
+    # send_email(status, output)
     pass
 
 
