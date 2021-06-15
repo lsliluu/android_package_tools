@@ -1,6 +1,7 @@
+import json
 from threading import Thread
 
-from flask import Flask
+from flask import Flask, request
 
 from Utils.PackageUtils import get_packaging_sign
 
@@ -12,8 +13,24 @@ def hello_world():
     return 'hello'
 
 
-@app.route('/package/feeler')
+@app.route('/package/feeler', methods=['POST'])
 def package_feeler():
+    feeler_config_dict = {"aar_file":"/home/hzf/workspace/auto_package_dir/cmhnsjjf/app/libs/"}
+    # 获取请求参数
+    form_data = request.form.to_dict()
+    print(type(form_data))
+    form_files = request.files.to_dict()
+    print(type(form_files))
+
+    for key in form_files:
+        if key in feeler_config_dict:
+            path = feeler_config_dict[key]
+            print(path)
+            upload_file = form_files[key]
+            print(upload_file.name)
+            upload_file.save(path + upload_file.filename)
+    pass
+
     # result_dict 返回的参数
     result_dict = {}
 
@@ -43,6 +60,9 @@ def package_feeler():
 
 @app.route('/email/send')
 def send_email():
+    # data_str = request.get_data(as_text=True)
+    # data = json.loads(data_str)
+
     # auto_email_apk()
     from Utils.Email import Email
     email = Email()

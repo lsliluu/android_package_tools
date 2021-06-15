@@ -23,9 +23,10 @@ def execute_shell():
     (status, output) = subprocess.getstatusoutput('sh /home/hzf/workspace/auto_package_dir/auto_package_cmhnsjjf.sh')
     print(status)
     print(output)
-    packaging_sign = False
     # 调用发送邮件
-    # send_email(status, output)
+    send_email(status, output)
+    # TODO 在邮件发送后才能继续下一轮编译，此处可以优化
+    packaging_sign = False
     pass
 
 
@@ -41,6 +42,8 @@ def send_email(status, output):
         # 将output输出成日志文件，放到邮件附件中发送
 
         pass
-    # 释放全局变量
-    g.packaging_sign = False
+
+    from Utils.Email import Email
+    email = Email()
+    email.send_mail_with_attachments(['dev.hezf@139.com', 'hezf@newland.com.cn'], '关于Android编译apk', '您好：\n此邮件是发起Android编译后自动发送的通知邮件，请注意查看编译进展，请勿回复。\n祝工作顺利')
     pass
